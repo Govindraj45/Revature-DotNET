@@ -1,22 +1,22 @@
-using System;
+using System; // Basic language types used by the program.
 
-namespace Day5
+namespace Day5 // Logical grouping for this demo.
 {
-    public class Resource
+    public class Resource // Simple class used to demonstrate GC.
     {
-        public string Name { get; set; }
+        public string Name { get; set; } // Stores the resource name.
 
-        public Resource(string name)
+        public Resource(string name) // Constructor runs when object is created.
         {
-            Name = name;
-            // Say hello when object is born.
+            Name = name; // Store the provided name.
+            // Print a message so we can see object creation.
             Console.WriteLine($"{Name} created");
         }
 
         // Destructor (Finalizer)
-        ~Resource()
+        ~Resource() // Runs when the GC reclaims this object.
         {
-            // Say bye when GC removes it.
+            // Print a message when the object is collected.
             Console.WriteLine($"{Name} destroyed by GC");
         }
     }

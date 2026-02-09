@@ -7,16 +7,20 @@ namespace ConsoleApp
     {
         public static void Main(string[] args)
         {
+            // Create the DI container (service registry).
             var services = new ServiceCollection();
 
+            // DIP: register abstractions (interfaces) to implementations.
             services.AddScoped<IMessageReader, TwitterMessageReader>();
             services.AddScoped<IMessageWriter, InstagramMessageWriter>();
             services.AddScoped<IMessageWriter, PdfMessageWriter>();
             services.AddScoped<IMyLogger, ConsoleLogger>();
             services.AddScoped<App>();
 
+            // Build the provider (object factory).
             var serviceProvider = services.BuildServiceProvider();
 
+            // Ask container for App; it injects dependencies.
             var app = serviceProvider.GetService<App>();
 
             if (app != null)
@@ -39,6 +43,7 @@ namespace ConsoleApp
         IMessageReader _messageReader;
         IMessageWriter _messageWriter;
 
+        // DIP: App depends on interfaces, not concrete classes.
         public App(IMessageReader reader, IMessageWriter writer)
         {
             _messageReader = reader;
@@ -47,6 +52,7 @@ namespace ConsoleApp
 
         public void Run()
         {
+            // Read then write using abstractions.
             _messageWriter.WriteMessage(_messageReader.ReadMessage());
         }
     }
@@ -64,11 +70,13 @@ namespace ConsoleApp
 
     }
 
+    // SRP: This class only reads messages.
     public class MessageReader : IMessageReader
     {
         public string ReadMessage() => "Hello, World!";
     }
 
+    // OCP/LSP: Can swap this reader without changing App.
     public class TwitterMessageReader : IMessageReader
     {
         // twitter integration
@@ -80,6 +88,7 @@ namespace ConsoleApp
         void WriteMessage(string message);
     }
 
+    // SRP: This class only writes to console.
     public class MessageWriter : IMessageWriter
     {
         public void WriteMessage(string message)
@@ -94,6 +103,7 @@ namespace ConsoleApp
         void Log();
     }
 
+    // SRP: Logger only logs.
     public class ConsoleLogger : IMyLogger
     {
         public void Log()
@@ -105,6 +115,7 @@ namespace ConsoleApp
     public class InstagramMessageWriter : IMessageWriter
     {
         IMyLogger _logger;
+        // DIP: depends on IMyLogger, not ConsoleLogger.
         public InstagramMessageWriter(IMyLogger logger)
         {
             _logger = logger;
@@ -116,6 +127,7 @@ namespace ConsoleApp
         }
     }
 
+    // OCP: New writer added without changing App.
     public class PdfMessageWriter : IMessageWriter
     {
         public void WriteMessage(string message)
