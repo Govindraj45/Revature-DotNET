@@ -1,1 +1,2 @@
-# Revature-DotNET
+# Daily Assignments
+and Daily Class work
