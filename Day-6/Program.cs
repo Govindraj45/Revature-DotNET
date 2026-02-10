@@ -19,6 +19,18 @@ namespace Day5 // Logical grouping for this demo.
             GC.WaitForPendingFinalizers(); // Wait for finalizers to complete.
 
             Console.WriteLine("GC completed"); // End of demo output.
+
+            Console.WriteLine();
+            RecordDemo.Run();
+
+            Console.WriteLine();
+            ArrayCollectionDemo.Run();
+
+            Console.WriteLine();
+            CollectionClassDemo.Run();
+
+            Console.WriteLine();
+            ListCapacityDemo.Run();
         }
     }
 }
