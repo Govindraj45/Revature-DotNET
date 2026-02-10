@@ -1,0 +1,6 @@
+ git status
+ git branch
+ git --no-pager log --oneline -n 1
+ ls -la | head -20
+ pwd
+

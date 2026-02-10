@@ -1,6 +1,6 @@
 using System; // Basic language types used by the program.
 
-namespace Day5 // Logical grouping for this demo.
+namespace Day6 // Logical grouping for this demo.
 {
     public class Resource // Simple class used to demonstrate GC.
     {

@@ -1,24 +1,47 @@
-using System; // Basic language types used by the program.
+using System;
 
-namespace Day5 // Logical grouping for this demo.
+namespace Day6
 {
-    class Program // Entry class for the console app.
+    class Program
     {
-        public static void Main() // Program starts executing here.
+        public static void Main()
         {
-            // Create two managed objects to demonstrate GC behavior.
+            // We make two objects.
             var res1 = new Resource("Res1"); // first object
             var res2 = new Resource("Res2"); // second object
 
-            // Remove the reference to Res1 so it becomes eligible for collection.
+            // We drop the first object, so GC can clean it.
             res1 = null;
-            // Res2 is still referenced, so it should not be collected yet.
+            // We keep the second object, so GC keeps it.
 
-            // Force a garbage collection (only for demonstration).
+            // We ask GC to clean now (just for demo).
             GC.Collect();
-            GC.WaitForPendingFinalizers(); // Wait for finalizers to complete.
+            GC.WaitForPendingFinalizers();
 
-            Console.WriteLine("GC completed"); // End of demo output.
+            Console.WriteLine("GC completed");
+
+            Console.WriteLine();
+            RecordDemo();
+
+            Console.WriteLine();
+            // ArrayCollectionDemo.Run();
+
+            Console.WriteLine();
+            ListCapacityDemo.Run();
+        }
+    
+        private static void RecordDemo()
+        {
+            var temp1 = new Temp { Id = 1, Name = "Temp1" };
+            var temp2 = new Temp { Id = 1, Name = "Temp1" };
+
+            Console.WriteLine(temp1);
+            Console.WriteLine(temp2);
+            Console.WriteLine(temp1 == temp2);
+
+            var temp3 = temp1 with { Id = 2 };
+            Console.WriteLine(temp3);
         }
     }
+
 }
