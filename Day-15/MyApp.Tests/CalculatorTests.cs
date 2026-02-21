@@ -2,8 +2,6 @@ using MyApp;
 
 namespace MyApp.Tests;
 
-// Req -> Analysis/Design -> Development -> Testing -> Deployment
-// Req -> Analysis/Design -> Testing -> Development -> Deployment
 public class CalculatorTests
 {
     [Theory]
@@ -92,5 +90,33 @@ public class CalculatorTests
 
         // Act + Assert
         Assert.Throws<DivideByZeroException>(() => calculator.Divide(10, 0));
+    }
+
+    // RED -> GREEN -> REFACTOR (short demo for Divide)
+    [Fact(Skip = ".")]
+    public void Divide_Red_Demo()
+    {
+        var calculator = new Calculator();
+        var actual = calculator.Divide(10, 2);
+        Assert.Equal(6, actual); // intentional wrong expectation
+    }
+
+    [Fact]
+    public void Divide_Green_Demo()
+    {
+        var calculator = new Calculator();
+        var actual = calculator.Divide(10, 2);
+        Assert.Equal(5, actual);
+    }
+
+    [Theory]
+    [InlineData(20, 4, 5)]
+    [InlineData(9, 3, 3)]
+    [InlineData(-12, 3, -4)]
+    public void Divide_Refactor_Demo(int x, int y, int expected)
+    {
+        var calculator = new Calculator();
+        var actual = calculator.Divide(x, y);
+        Assert.Equal(expected, actual);
     }
 }
